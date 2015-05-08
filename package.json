@@ -4,7 +4,7 @@
   "description": "An SQL DDL statements parser",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "make all"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/adln/node-sql-ddl-parser/issues"
   },
-  "homepage": "https://github.com/adln/node-sql-ddl-parser"
+  "homepage": "https://github.com/adln/node-sql-ddl-parser",
+  "devDependencies": {
+    "chai": "^2.3.0",        
+    "mocha": "^2.2.4"
+  }
 }

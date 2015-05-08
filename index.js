@@ -1,17 +1,104 @@
 
+/**
+ * Version: 0.0.1
+ * Description: This file deals with DDL statements exported within and .sql file, not all DDL statements.
+ * 
+ */
 
-var types = ["alter", "create", "drop", "rename", "truncate"];
+var Parser = function () {
+	this.query = '';
+	this.syntaxes = [
+		{
+			statement: "CREATE",
+			syntaxes: [
+				{
+					what: "table",
+					has_name: true,
+					isLast: true
+				}
+			],
+			should_have: [
+				["`", "'", "plain"],
+				["`", "'", "plain"],
+				"(",
+				")"
+			],
+			infos_extract: function () {
+				var get_table_name = function () {
 
-//TODO add the syntax of every statement and its variants
+				};
+				var get_cols = function () {
 
-//TODO identify string statement types
+				};
+			}
+		}
+	];
+	this.currentType = '';
+	this.syntaxToUse;
+}
 
+Parser.prototype.exceptions = {
+	NotValidException: function (message) {
+		this.message = message;
+		this.name = "NotValidException";
+	}
+}
+// SETTERS
+Parser.prototype.setQuery = function (query) {
+	this.query = query;
+	return this;
+};
+
+//GETTERS
+
+Parser.prototype.getQuery = function () {
+	return this.query;
+};
+Parser.prototype.getType = function () {
+	this.statementType();
+	return this.currentType;
+}
+
+// Identify string statement types
+Parser.prototype.statementType = function () {
+	var s = this.query;
+	var sarray = s.split(" ");
+	var first = sarray[0].toUpperCase();
+	for (var index = 0, len = this.syntaxes.length; index < len; index++) {
+		var currentSyntax = this.syntaxes[index]
+		var currentStatement = currentSyntax.statement.toUpperCase();
+		if (first === currentStatement) {
+			this.syntaxToUse = currentSyntax;
+			this.currentType = currentStatement;
+			return this;
+		}
+	}
+	// throw an error if can't identify the type ??
+	// throw new NotValidException("Can't identify the statement type of : " + s);
+	this.currentType = false;
+	return this;
+};
 //TODO apply statement type to the string
+Parser.prototype.validate = function () {
+	if (!this.syntaxToUse) this.statementType();
+	var should_have = this.syntaxToUse.should_have;
+	for (var index = 0, len = should_have.length; index < len; index++) {
+		var element = should_have[index];
+		// verify if the current
+		if (typeof (element) === "array") {
+			
+			for (var i = 0, len = this.query.length; i < len; i++) {
+							
+		
+			}
+		} else if (typeof (element) === "string") {
 
+		}
+
+	}
+	return this.syntaxToUse;
+}
 //TODO parse the string
 
 //TODO repeat the process for all the strings (ending with a semicolon)
-
-module.exports = {
-
-};
+module.exports = Parser;
