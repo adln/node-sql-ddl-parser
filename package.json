@@ -1,0 +1,19 @@
+{
+  "name": "node-sql-ddl-parser",
+  "version": "0.0.1",
+  "description": "An SQL DDL statements parser",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adln/node-sql-ddl-parser.git"
+  },
+  "author": "Gharbi Adlen <contact@gharbi-adlen.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adln/node-sql-ddl-parser/issues"
+  },
+  "homepage": "https://github.com/adln/node-sql-ddl-parser"
+}
