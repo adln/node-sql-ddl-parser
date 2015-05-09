@@ -6,7 +6,10 @@
  */
 
 var Parser = function () {
-	this.query = '';
+	this.query;
+	this.currentType;
+	this.syntaxToUse;
+
 	this.syntaxes = [
 		{
 			statement: "CREATE",
@@ -22,19 +25,9 @@ var Parser = function () {
 				["`", "'", "plain"],
 				"(",
 				")"
-			],
-			infos_extract: function () {
-				var get_table_name = function () {
-
-				};
-				var get_cols = function () {
-
-				};
-			}
+			]
 		}
 	];
-	this.currentType = '';
-	this.syntaxToUse;
 }
 
 Parser.prototype.exceptions = {
@@ -57,7 +50,19 @@ Parser.prototype.getQuery = function () {
 Parser.prototype.getType = function () {
 	this.statementType();
 	return this.currentType;
-}
+};
+Parser.prototype.getInformations = function () {
+	var table_name = this.query.split(' ')[2],
+		start = this.query.indexOf('('),
+		end = this.query.lastIndexOf(')'),
+		cols_part = this.query.substring(start + 1, end),
+		columns = cols_part.split(',');	
+	
+	return {
+		table_name: table_name,
+		columns: columns
+	}
+};
 
 // Identify string statement types
 Parser.prototype.statementType = function () {
@@ -86,18 +91,18 @@ Parser.prototype.validate = function () {
 		var element = should_have[index];
 		// verify if the current
 		if (typeof (element) === "array") {
-			
+
 			for (var i = 0, len = this.query.length; i < len; i++) {
-							
-		
+
+
 			}
 		} else if (typeof (element) === "string") {
 
 		}
-
 	}
 	return this.syntaxToUse;
-}
+};
+
 //TODO parse the string
 
 //TODO repeat the process for all the strings (ending with a semicolon)
