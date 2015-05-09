@@ -30,12 +30,10 @@ var Parser = function () {
 	];
 }
 
-Parser.prototype.exceptions = {
-	NotValidException: function (message) {
-		this.message = message;
-		this.name = "NotValidException";
-	}
-}
+Parser.prototype.NotValidException = function (message) {
+	this.message = message;
+	this.name = "NotValidException";
+};
 // SETTERS
 Parser.prototype.setQuery = function (query) {
 	this.query = query;
@@ -50,18 +48,6 @@ Parser.prototype.getQuery = function () {
 Parser.prototype.getType = function () {
 	this.statementType();
 	return this.currentType;
-};
-Parser.prototype.getInformations = function () {
-	var table_name = this.query.split(' ')[2],
-		start = this.query.indexOf('('),
-		end = this.query.lastIndexOf(')'),
-		cols_part = this.query.substring(start + 1, end),
-		columns = cols_part.split(',');	
-	
-	return {
-		table_name: table_name,
-		columns: columns
-	}
 };
 
 // Identify string statement types
@@ -102,8 +88,27 @@ Parser.prototype.validate = function () {
 	}
 	return this.syntaxToUse;
 };
+//Parse the string
+Parser.prototype.getInformations = function () {
 
-//TODO parse the string
+	var table_name = this.query.split(' ')[2],
+		start = this.query.indexOf('('),
+		end = this.query.lastIndexOf(')'),
+		cols_part = this.query.substring(start + 1, end),
+		columns = cols_part.split(',');
+
+	if (!table_name || (table_name.indexOf(')') >= 0) || (table_name.indexOf('(') >= 0)) {
+		return false;		
+	}
+
+	return {
+		table_name: table_name,
+		columns: columns
+	}
+
+
+};
+
 
 //TODO repeat the process for all the strings (ending with a semicolon)
 module.exports = Parser;
